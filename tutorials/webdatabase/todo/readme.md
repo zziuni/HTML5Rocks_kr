@@ -60,6 +60,24 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
     }
 
 ## 2단계. 테이블 생성 (Step 2. Creating a table)
+> You can only create a table by executing a CREATE TABLE SQL statement inside a transaction. 
+
+테이블은 오직 트랜젝션 안에서 CREATE TABLE SQL 구문 실행을 통해서만 생성할 수 있다. 
+
+> We have defined a function that will create a table in the body onload event. If the table doesn't already exist, a table will be created. The table is called todo and has 3 columns. 
+
+body의 onload 이벤트에서 테이블을 생성할 함수를 정의한다. 같은 이름의 테이블이 존재하지 않는다면, 생성될 것이다. 테이블 명은 todo이고 컬럼을 3개 가진다. 
+
+* ID - 순차 증가형 ID 컬럼
+* todo - 할일 항목의 내용을 담은 텍스트
+* added_on - 할일 항목이 생성된 시간.
+
+    html5rocks.webdb.createTable = function(){
+        html5rocks.webdb.db.transaction(function(tx){
+            tx.executeSql( 'CREATE TABLE IF NOT EXIST ' +
+                        ' todo( ID INTIGER PRIMARY KEY ASC, todo	 text, added_on DATETIME )', [] );
+        });
+    }
 
 ## 3단계. 테이블에 데이터 추가하기 (Step 3. Adding data to a table)
 
