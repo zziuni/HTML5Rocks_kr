@@ -24,10 +24,10 @@
 >This sample uses a namespace to encapsulate the database logic.
 
 이 샘플은 데이터베이스 로직을 캡슐화 하기위해 네임스페이스를 사용한다. 
-'''
+```
 var html5rocks = {};
 html5rocks.webdb = {};
-''''
+```
 
 
 ## Asynchronous and Transactional
@@ -43,8 +43,27 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
 
 ## Step 1. Opening the database
 ## 1단계. 데이터베이스 오픈.
-> The database needs to be opened before it can be accessed. You need to define the name, version, description and the size of the database.
+> The database needs to be opened before it can be accessed. You need to define the name, version, description and the size of the database. 
 
+데이터베이스는 접근하기 전에 먼저 오픈이 되야 한다. 데이터베이즈의 이름, 버전, 부연설명, 사이즈를 정의해야 한다. 
+```
+html5rocks.webdb.db = null;
+
+html5rocks.webdb.open = function(){
+	var dbsize = 5 * 1024 * 1024; 		// 5MB
+	html5rocks.webdb.db = openDatabase( 'Todo', '1.0', 'todo manager', dbSize );
+}
+
+html5rocks.webdb.onError = function(tx, e){
+	alert( 'Something unexpected happened: ' + e.message );
+}
+
+html5rocks.webdb.onSuccess = function(tx, r){
+	// 모든 데이터를 다시 렌더링 한다. 
+	// getAllTodoItem()는 4단계에서 정의한다.
+	html5rocks.webdb.getAllTodoItems(loadTodoItems);
+}
+```
 
 
 ## Step 2. Creating a table
