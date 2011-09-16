@@ -19,8 +19,7 @@
 이 예제는 어떻게 하면 간단한 할일 목록 관리 앱을 만들 수 있는지를 보여준다. 이건 HTML5에서 가능한 몇가지 기능의 고 레벨 투어다. (음??)
 
 
-## Pre-requisites
-## 사전 준비 작업
+## 사전 준비 작업(Pre-requisites)
 >This sample uses a namespace to encapsulate the database logic.
 
 이 샘플은 데이터베이스 로직을 캡슐화 하기위해 네임스페이스를 사용한다. 
@@ -28,8 +27,7 @@
     var html5rocks = {};
     html5rocks.webdb = {};
 
-## Asynchronous and Transactional
-## 비 동기 전송과 트랜젝션
+## 비 동기 전송과 트랜젝션(Asynchronous and Transactional)
 
 > In the majority of cases where you are using Web Database support you will be using the Asynchronous API. The Asynchronous API is a non-blocking system and as such will not get data through return values, but rather will get data delivered to a defined callback function. 
 
@@ -39,8 +37,7 @@ Web Dababases가 사용되는 대부분의 경우는 비동기(Asynchronous) API
 
 Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없이 SQL 구문을 실행하는 것은 불가능하다. 트랙젝션에는 두가지 타입이 있는데 transaction() 메서드의 읽기/쓰기 트랜젝션과 readTransaction() 메서드의 읽기 전용 트랜젝션이다. transaction()는 데이터베이스 전체를 잠가버리니, 부디 주의해서 사용하라. 
 
-## Step 1. Opening the database
-## 1단계. 데이터베이스 오픈.
+## 1단계. 데이터베이스 오픈. (Step 1. Opening the database)
 > The database needs to be opened before it can be accessed. You need to define the name, version, description and the size of the database. 
 
 데이터베이스는 접근하기 전에 먼저 오픈이 되야 한다. 데이터베이즈의 이름, 버전, 부연설명, 사이즈를 정의해야 한다. 
@@ -62,17 +59,18 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
         html5rocks.webdb.getAllTodoItems(loadTodoItems);
     }
 
-## Step 2. Creating a table
+## 2단계. 테이블 생성 (Step 2. Creating a table)
 
-## Step 3. Adding data to a table
+## 3단계. 테이블에 데이터 추가하기 (Step 3. Adding data to a table)
 
-## Step 4. Selecting data from a table
+## 4단계. 테이블에서 데이터 Select하기 (Step 4. Selecting data from a table)
 
-## Step 5. Deleting data from a table
+## 5단계. 테이블에서 데이터 지우기 (Step 5. Deleting data from a table)
 
-## Step 6. Hooking it all up
+## 6단계. 메서드 사용하기 (Step 6. Hooking it all up)
 
-## The final product
+## 결과물 (The final product)
+[Demo](http://www.html5rocks.com/en/tutorials/webdatabase/todo/#toc-final)
 
 ## content licensed
 original http://www.html5rocks.com/en/tutorials/webdatabase/todo/
