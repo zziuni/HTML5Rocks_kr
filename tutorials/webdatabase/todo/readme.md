@@ -69,17 +69,43 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
 body의 onload 이벤트에서 테이블을 생성할 함수를 정의한다. 같은 이름의 테이블이 존재하지 않는다면, 생성될 것이다. 테이블 명은 todo이고 컬럼을 3개 가진다. 
 
 * ID - 순차 증가형 ID 컬럼
-* todo - 할일 항목의 내용을 담은 텍스트
-* added_on - 할일 항목이 생성된 시간.
+* todo - 할일 항목의 내용을 담은 텍스트 컬럼
+* added_on - 할일 항목이 생성된 시간 컬럼
 
+```javascript
     html5rocks.webdb.createTable = function(){
         html5rocks.webdb.db.transaction(function(tx){
             tx.executeSql( 'CREATE TABLE IF NOT EXIST ' +
                         ' todo( ID INTIGER PRIMARY KEY ASC, todo	 text, added_on DATETIME )', [] );
         });
     }
+```
 
 ## 3단계. 테이블에 데이터 추가하기 (Step 3. Adding data to a table)
+> We are building a todo list manager so it is pretty important that we are able to add todo items in to the database. 
+
+지금 우린 할일 목록 관리자를 만들고 있고, 당연한 이야기지만 할일 항목을 데이터베이스에 추가할 수 있어야 한다. 
+
+> A transaction is created, inside the transaction an INSERT into the todo table is performed. 
+
+트랜젝션이 생성되고 그 안에서 todo 테이블에 INSERT를 수행한다. 
+
+> executeSql takes several parameters, the SQL to execute and the parameters values to bind the query. 
+
+executeSql 메서드는 몇가지 파라미터가 필요한데, 실행할 SQL 쿼리문과 쿼리문에 전달할 파라미터 값들이다. 
+
+```javascript
+html5rocsk.webdb.addTodo = function(todoText){
+    html5rocks.webdb.db.transaction(function(tx){
+        var addedOn = new Date();
+        tx.executeSql( ' 	INSERT INTO todo(todo, added_on) VALUES ( ?, ? ) ' ,
+                [todoText, addedOn],
+                html5rocks.webdb.onSuccess,
+                html5rocks.webdb.onError
+        );
+    });
+}
+```
 
 ## 4단계. 테이블에서 데이터 Select하기 (Step 4. Selecting data from a table)
 
