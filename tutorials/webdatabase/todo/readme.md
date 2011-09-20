@@ -24,8 +24,10 @@
 
 이 샘플은 데이터베이스 로직을 캡슐화 하기위해 네임스페이스를 사용한다. 
 
+```javascript
     var html5rocks = {};
     html5rocks.webdb = {};
+```
 
 ## 비 동기 전송과 트랜젝션(Asynchronous and Transactional)
 
@@ -42,6 +44,7 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
 
 데이터베이스는 접근하기 전에 먼저 오픈이 되야 한다. 데이터베이즈의 이름, 버전, 부연설명, 사이즈를 정의해야 한다. 
 
+```javascript
     html5rocks.webdb.db = null;
 
     html5rocks.webdb.open = function(){
@@ -58,6 +61,7 @@ Web Database는 HTML를 통해서 트랜젝션을 지원한다. 트랜젝션없�
         // getAllTodoItem()는 4단계에서 정의한다.
         html5rocks.webdb.getAllTodoItems(loadTodoItems);
     }
+```
 
 ## 2단계. 테이블 생성 (Step 2. Creating a table)
 > You can only create a table by executing a CREATE TABLE SQL statement inside a transaction. 
@@ -84,11 +88,11 @@ body의 onload 이벤트에서 테이블을 생성할 함수를 정의한다. �
 ## 3단계. 테이블에 데이터 추가하기 (Step 3. Adding data to a table)
 > We are building a todo list manager so it is pretty important that we are able to add todo items in to the database. 
 
-지금 우린 할일 목록 관리자를 만들고 있고, 당연한 이야기지만 할일 항목을 데이터베이스에 추가할 수 있어야 한다. 
+지금 우린 **할일 목록 관리자**를 만들고 있고, 당연한 이야기지만 할일 항목을 데이터베이스에 추가할 수 있어야 한다. 
 
 > A transaction is created, inside the transaction an INSERT into the todo table is performed. 
 
-트랜젝션이 생성되고 그 안에서 todo 테이블에 INSERT를 수행한다. 
+트랜젝션을 생성하고, 그 안에서 todo 테이블에 INSERT를 수행한다. 
 
 > executeSql takes several parameters, the SQL to execute and the parameters values to bind the query. 
 
@@ -108,6 +112,46 @@ html5rocsk.webdb.addTodo = function(todoText){
 ```
 
 ## 4단계. 테이블에서 데이터 Select하기 (Step 4. Selecting data from a table)
+> Now that the data is in the database, you need a function that gets the data back out. In Chrome, Webdatabase's use standard SQLite SELECT queries. 
+
+현재 데이터는 데이터베이스안에 있다. 데이터를 다시 빼올 함수가 필요한데, 크롬에서는 Webdatabase가 표준 SQLite SELECT 쿼리를 사용한다. 
+
+````javascript
+html5rocks.webdb.getAllTodoItems = function(renderFunc){
+    html5rocks.webdb.db.transaction(function(tx){
+        tx.executeSql('SELECT * FROM todo', [], renderFunc, html5rocks.webdb.onError);
+    });
+}
+````
+
+> Note that all of these commands used in this sample are asynchronous and as such the data is not returned from the transaction or the executeSql call. The results are passed through to the success callback. 
+
+예제에 사용된 모든 명령어는 비동기다. 그래서 그 데이터는 transaction나 executeSql 메서드 호출로 반환되지 않는다. 실행 결과는 성공시 콜백함수 renderFunc의 인자로 넘겨진다. 
+
+## 4a단계. 테이블의 데이터 랜더링
+> Once the data has been fetched from the table, the loadTodoItems method will be called. 
+The onSuccess callback takes two parameters. The first being the transaction of the query and the second being the result set. It is fairly simple to iterate across the data: 
+
+todo 테이블에서 가져오면 loadTodoItems 메서드가 호출될 것이다. onSuccess 콜백 메서드는 두개의 인자를 가지고 있다. 첫 인자는 쿼리의 트랜젝션이고 두번 째는 쿼리실행 결과 셋이다. 데이터를 가로질러 순회하기에는 상당히 간단하다. 
+
+```javascript
+function loadTodoItem(tx, rs){
+    var rowOutput = "";
+    for (var i=0; i < rs.rows.length; i++){
+        rowOutput += renderTodo(rs.rows.item(i));
+    }
+    var todoItems = document.getElementById('todoItems');
+    totoItems.innerHTML = rowOutput;
+}
+
+function renderTodo(row){
+    return '<li></li>' + row.ID + '[<a onclick="html5rocks.webdb.deleteTodo(' + row.ID + ');">X</a>]</li>';
+
+}
+````
+> The effect of this method call is that the todo list is rendered into a DOM Element called "todoItems".
+
+이 메서드 호출의 효과는 'todoItems'라는 DOM 요소에 할일 목록이 렌더링 된다는 것이다. 
 
 ## 5단계. 테이블에서 데이터 지우기 (Step 5. Deleting data from a table)
 
