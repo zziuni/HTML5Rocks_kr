@@ -4,11 +4,11 @@
 ## 개요
 > Web Databases are new in HTML5. Web Databases are hosted and persisted inside a user's browser. By allowing developers to create applications with rich query abilities it is envisioned that a new breed of web applications will emerge that have the ability to work online and off-line.
 
-[Web Databases](http://dev.w3.org/html5/webdatabase)는 HTML5의 새로운 기능이며, 사용자 브라우저안에서 제공되고 지속적으로 유지되는 Database이다. 개발자가 어플리케이션 개발을 고급 조회 기법을 동원해서 만들 수 있게 됨으로써, 새로운 유형의 웹 어플리케이션은 온라인과 오프라인 작업이 모두 가능한 형태로 발전할 것라는 사실이 예견됐다. 
+[Web Databases](http://dev.w3.org/html5/webdatabase)는 HTML5의 새로운 기능이며, 사용자 브라우저안에서 유지되고 제공되는 Database이다. 이를 통해 개발자가 SQL 쿼리 기법을 동원해서 어플리케이션을 만들 수 있게 됨으로써, 새로운 유형의 웹 어플리케이션은 온라인과 오프라인 작업이 모두 가능한 형태로 발전할 것라는 사실이 예견됐다. 
 
 > On November 18, 2010, the W3C announced that Web SQL database is a deprecated specification. This is a recommendation for web developers to no longer use the technology as effectively the spec will receive no new updates and browser vendors aren't encouraged to support this technology. Many major browsers including Chrome, Safari, Opera and nearly all Webkit based mobile devices support WebSQL and will likely maintain support for the foreseeable future. 
 
-하지만, 2010년 11월 18일, W3C는 Web SQL database가 표준안에서 제외시켰다. 이것은 실제로 이 스펙의 새 업데이트를 받아볼 수 없으므로, 웹 개발자가 이 기술을 더 이상 사용하지 않기를 권하는 것이고, 웹 브라우저 벤더들에게 이 기술 지원을 장려하지 않는다는 것이다. 아직까지는 크롬, 사파리, 오페라와 거의 모든 웹킷기반의 모바일 장비들은 WebSLQ를 지원한다. 그리고 근 미래까지는 아마 유지될 것이다. 
+하지만, 2010년 11월 18일, W3C는 Web SQL database를 표준안에서 제외시켰다. 이것은 이 기술이 업데이트 되지 않으므로 웹 개발자가 이 기술을 더 이상 사용하지 않기를 권하는 것이고, 브라우저 벤더들에게도 이 기술 지원을 장려하지 않는다는 것이다. 아직까지는 크롬, 사파리, 오페라와 거의 모든 웹킷기반의 모바일 장비들은 WebSLQ를 지원한다. 그리고 아마도 근 미래까지는 유지될 것이다. 
 
 > This tutorial is also available written using "IndexedDB", the replacement offline storage technology. 
 
@@ -16,7 +16,7 @@
 
 > This example code demonstrates how to create a very simple todo list manager. It is a very high level tour of some of the features available in HTML5. 
 
-이 예제는 어떻게 하면 간단한 할일 목록 관리 앱을 만들 수 있는지를 보여준다. 이건 HTML5에서 가능한 몇가지 기능의 고 레벨 투어다. (음??)
+이 예제는 어떻게 하면 간단한 할일 목록 관리 앱을 만들 수 있는지를 보여준다. 이건 HTML5에서 가능한 몇가지 기능의 수준 높은 여행이 될 것이다. (음??)
 
 
 ## 사전 준비 작업
