@@ -1,13 +1,3 @@
-<script type="text/javascript">
-function bqHidden(){
-var tt = document.getElementsByTagName("blockquote");
-for (var i=0; i<tt.length; i++){
-    tt[i].style.display = 'none';
-}
-}
-</script>
-
-<button onclick="bqHidden()">hidden Eng</button>
 A Begginer's Guide to Using the Application Cache
 ==============
 초보자 App Cache 사용 가이드 [원문](http://www.html5rocks.com/en/tutorials/appcache/beginner/#toc-updating-cache)
