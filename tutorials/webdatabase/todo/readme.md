@@ -1,5 +1,9 @@
 
-# HTML5 WebDatabases를 이용한 간단한 할일 목록 만들기. [원문](http://www.html5rocks.com/en/tutorials/webdatabase/todo/)
+HTML5 WebDatabases를 이용한 간단한 할일 목록 만들기. [원문](http://www.html5rocks.com/en/tutorials/webdatabase/todo/)
+=====================================
+*Paul Kinlan - Developer Relations, Google<br/>
+June 14th, 2010*
+
 
 ## 개요
 > Web Databases are new in HTML5. Web Databases are hosted and persisted inside a user's browser. By allowing developers to create applications with rich query abilities it is envisioned that a new breed of web applications will emerge that have the ability to work online and off-line.
