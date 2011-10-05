@@ -48,9 +48,11 @@ Intorduction
 
 앱에서 application cache를 가능하게 하기위해서는 문서의 html 태그에 manifest 속성을 넣어야 한다.
 
+```javascript
     <html manifest="example.appcache">
       ...
     </html>
+```
 
 > The manifest attribute should be included on every page of your web application that you want cached. The browser does not cache a page if it does not contain the manifest attribute (unless it is explicitly listed in the manifest file itself. This means that any page the user navigates to that include a manifest will be implicitly added to the application cache. Thus, there's no need to list every page in your manifest. 
 
@@ -60,10 +62,11 @@ Intorduction
 
 *manifest* 속성에는 상대주소와 절대 주소 모두 쓸 수 있다. 하지만 절대 주소는 웹 어플리케이션에서 동일 원본 정책하에서만 가능하다. 메니페스트 파일의 확장자는 뭐든 가능하지만 서버에서 mime-type 지정이 필요하다. 다음을 보라.
 
+```javascript
 	<html manifest="http://www.example.com/example.mf">
 	  ...
 	</html>
-
+```
 > A manifest file must be served with the mime-type text/cache-manifest. You may need to add a custom file type to your web server or .htaccess configuration. 
 
 메니페스트 파일은 반드시 *text/cache-manifest* mime-type으로 제공되야 한다. 그러므로 웹서버나 *.htaccess*에서 커스텀 파일 타입을 추가해야 할 지도 모른다. 
@@ -72,16 +75,20 @@ Intorduction
 
 다음은 이를 위해서 아파치 설정 파일에 설정을 추가하는 경우다. 
 
+```javascript
 	AddType text/cache-manifest .appcache
+```
 
 > Or, in your app.yaml file in Google App Engine:
 
 또는, Google App Engine의 app.yaml 파일 설정이다. 
 
+```javascript
 	- url: /mystaticdir/(.*\.appcache)
 	  static_files: mystaticdir/\1
 	  mime_type: text/cache-manifest
 	  upload: mystaticdir/(.*\.appcache)
+```
 
 ### 메니페스트 파일의 구조. 
 
@@ -89,11 +96,13 @@ Intorduction
 
 간단한 메니페스트 파일을 보자. 
 
+```javascript
 	CACHE MANIFEST
 	index.html
 	stylesheet.css
 	images/logo.png
 	scripts/main.js
+```
 
 > This example will cache four files on the page that specifies this manifest file.
 
@@ -115,6 +124,7 @@ Intorduction
 
 여기 좀 더 복잡한 예제가 있다. 
 
+```javascript
     CACHE MANIFEST
     # 2010-06-18:v2
     
@@ -139,6 +149,7 @@ Intorduction
     /main.py /static.html
     images/large/ images/offline.jpg
     *.html /offline.html
+```
 
 > Lines starting with a '#' are comment lines, but can also serve another purpose. An application's cache is only updated when its manifest file changes. So for example, if you edit an image resource or change a javascript function, those changes will not be re-cached. You must modify the manifest file itself to inform the browser to refresh cached files. Creating a comment line with a generated version number, hash of your files, or timestamp is one way to ensure users have the latest version of your software. You can also programmatically update the cache once a new version is ready as discussed in the Updating the cache section. 
 
@@ -174,6 +185,7 @@ FALLBack:<br/>
 
 다음 메니페스는 사용자가 오프라인에서 사이트의 루트를 접근하려 할때 출력될 페이지, 즉 몽땅 캐시된 페이지(offline.html)를 정의한다. 다른 모든 리소스는 인터넷 접속이 필요하다는 선언도 있다. 
 
+```javascript
     CACHE MANIFEST
     # 2010-06-18:v3
     
@@ -194,6 +206,7 @@ FALLBack:<br/>
     images/logo1.png
     images/logo2.png
     images/logo3.png
+```
 
 > Note: The HTML file that references your manifest file is automatically cached. There's no need to include it in your manifest, however it is encouraged to do so.
 
@@ -223,6 +236,7 @@ FALLBack:<br/>
 
 *window.applicationCache* 객체가 여러분이 브라우저의 앱 케시를 프로그래밍 적으로 접근할 수 있게 돕느다. 이 객체의 *status* 프로퍼티는 캐시의 현재 상태를 확인할때 유용한다. 
 
+```javascript
 	var appCache = window.applicationCache;
 	
 	switch (appCache.status) {
@@ -248,11 +262,13 @@ FALLBack:<br/>
 	    return 'UKNOWN CACHE STATUS';
 	    break;
 	};
+```
 
 > To programmatically update the cache, first call applicationCache.update(). This will attempt to update the user's cache (which requires the manifest file to have changed). Finally, when the applicationCache.status is in its UPDATEREADY state, calling applicationCache.swapCache() will swap the old cache for the new one.
 
 케시를 프로그래밍으로 업데이트 하기위해, 먼저 *applicationCache.update()*를 호출한다. 이 메서드는 변경된 메니페스트 파일 요청을 통해서 사용자 앱 케시 업데이트를 시도한다. *applicationCache.status* 가 *UPDATEREADY* 상태일때, *applicationCache.swapCache()*를 호출하면 이전 캐시를 새것으로 바꿀 것이다. 
 
+```javascript
 	var appCache = window.applicationCache;
 	
 	appCache.update(); // 사용자 캐시 갱신 시도
@@ -262,6 +278,7 @@ FALLBack:<br/>
 	if (appCache.status == window.applicationCache.UPDATEREADY) {
 	  appCache.swapCache();  // 갱신 성공. 새 캐시로 교채.cache.
 	}
+```
 
 > Note: Using update() and swapCache() like this does not serve the updated resources to users. This flow simply tells the browser to check for a new manifest, download the updated content it specifies, and repopulate the app cache. Thus, it takes two page reloads to server new content to users, one to pull down a new app cache, and another to refresh the page content. 
 
@@ -271,7 +288,7 @@ FALLBack:<br/>
 
 다행히도 이 골치 아픈 두번의 리로드는 방시할 수 있다. 사용자에게 새 버전의 사이트를 갱신해 주기 위해서, 문서의 onload에 *updateready* 이벤트 리스너를 지정한다. 
 
-
+```javascript
 	// 페이지 로드시 새 로 캐쉬받아야 하는지 확인.
 	window.addEventListener('load', function(e) {
 	
@@ -289,11 +306,13 @@ FALLBack:<br/>
 	  }, false);
 	
 	}, false);
+```
 
 ### 앱 캐시 관련 이벤트
 
 > As you may expect, additional events are exposed to monitor the cache's state. The browser fires events for things like download progress, updating the app cache, and error conditions. The following snippet sets up event listeners for each type of cache event:  여러분의 기대처럼, 캐시의 상태를 관찰하기위해 추가된 이벤트들이 있다. 브라우저는 다운로드 상태, 앱 캐시의 갱신, 그리고 에러 상태 같은 일들에 대해 이벤트를 일으킨다. 다음 코드는 각 캐시 이벤트 타입에 대한 이벤트 리스너 지정법이다. 
 
+```javascript
 	function handleCacheEvent(e) {
 	  //...
 	}
@@ -327,6 +346,7 @@ FALLBack:<br/>
 	
 	// 메니페스트의 리소스들이 새로 다시 다운로드 되었을때 발생.
 	appCache.addEventListener('updateready', handleCacheEvent, false);
+```
 
 참조 페이지
 ------------
