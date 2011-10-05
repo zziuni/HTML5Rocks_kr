@@ -48,7 +48,7 @@ Intorduction
 
 앱에서 application cache를 가능하게 하기위해서는 문서의 html 태그에 manifest 속성을 넣어야 한다.
 
-```javascript
+```html
     <html manifest="example.appcache">
       ...
     </html>
@@ -62,7 +62,7 @@ Intorduction
 
 *manifest* 속성에는 상대주소와 절대 주소 모두 쓸 수 있다. 하지만 절대 주소는 웹 어플리케이션에서 동일 원본 정책하에서만 가능하다. 메니페스트 파일의 확장자는 뭐든 가능하지만 서버에서 mime-type 지정이 필요하다. 다음을 보라.
 
-```javascript
+```html
 	<html manifest="http://www.example.com/example.mf">
 	  ...
 	</html>
@@ -75,7 +75,7 @@ Intorduction
 
 다음은 이를 위해서 아파치 설정 파일에 설정을 추가하는 경우다. 
 
-```javascript
+```sh
 	AddType text/cache-manifest .appcache
 ```
 
@@ -83,7 +83,7 @@ Intorduction
 
 또는, Google App Engine의 app.yaml 파일 설정이다. 
 
-```javascript
+```sh
 	- url: /mystaticdir/(.*\.appcache)
 	  static_files: mystaticdir/\1
 	  mime_type: text/cache-manifest
@@ -96,7 +96,7 @@ Intorduction
 
 간단한 메니페스트 파일을 보자. 
 
-```javascript
+```sh
 	CACHE MANIFEST
 	index.html
 	stylesheet.css
@@ -124,7 +124,7 @@ Intorduction
 
 여기 좀 더 복잡한 예제가 있다. 
 
-```javascript
+```sh
     CACHE MANIFEST
     # 2010-06-18:v2
     
@@ -185,7 +185,7 @@ FALLBack:<br/>
 
 다음 메니페스는 사용자가 오프라인에서 사이트의 루트를 접근하려 할때 출력될 페이지, 즉 몽땅 캐시된 페이지(offline.html)를 정의한다. 다른 모든 리소스는 인터넷 접속이 필요하다는 선언도 있다. 
 
-```javascript
+```sh
     CACHE MANIFEST
     # 2010-06-18:v3
     
