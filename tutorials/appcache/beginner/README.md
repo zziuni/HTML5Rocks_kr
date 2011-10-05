@@ -97,7 +97,7 @@ Intorduction
 
 > This example will cache four files on the page that specifies this manifest file.
 
-위 메니페스트 파일을 지정한 페이지에서 4개 파일을 캐시할 것이다. 
+위 메니페스트 파일을 지정한 웹 페이지상에서 4개 파일을 캐싱할 것이다. 
 
 > There are a couple of things to note:
 
@@ -203,9 +203,131 @@ FALLBack:<br/>
 
 **주의**: SSL로 제공되는 페이지에 부과되는 HTTP cache header와 그 캐시 제한은 캐시 메니페스트로 덥어진다. 그래서 https로 제공된 페이지는 오프라인 작업이 가능하다. 
 
-Updating the cache
-----
-### Cache status
-### AppCache Event
-References
-----
+캐시 업데이트
+---------------------
+
+> Once an application is offline it remains cached until one of the following happens:
+
+어플리케이션은 다음 중 한 가지가 일어날때 까지는 현재 캐시된 것으로 오프라인을 유지한다. 
+
+> * The user clears their browser's data storage for your site.
+* The manifest file is modified. Note: updating a file listed in the manifest doesn't mean the browser will re-cache that resource. The manifest file itself must be alternated.
+* The app cache is programatically updated.
+
+* 사용자가 여러분의 사이트에 해당하는 브라우저 데이터 저장소를 비웠을때.
+* 메니페스트 파일이 수정되었을때. 주의할점은 메니페스트에 나열된 파일이 수정되었다고 브라우저가 그 목록을 재 캐싱한다는 뜻이 아니다. 메니페스트 파일 자체가 수정되야만 한다.  
+* 앱 케시를 자바스크립트로 업데이트 할때. 
+
+### 캐시의 상태 값 (applicationCache.status)
+> The *window.applicationCache* object is your programmatic access the browser's app cache. Its status property is useful for checking the current state of the cache:
+
+*window.applicationCache* 객체가 여러분이 브라우저의 앱 케시를 프로그래밍 적으로 접근할 수 있게 돕느다. 이 객체의 *status* 프로퍼티는 캐시의 현재 상태를 확인할때 유용한다. 
+
+	var appCache = window.applicationCache;
+	
+	switch (appCache.status) {
+	  case appCache.UNCACHED: // UNCACHED == 0
+	    return 'UNCACHED';
+	    break;
+	  case appCache.IDLE: // IDLE == 1
+	    return 'IDLE';
+	    break;
+	  case appCache.CHECKING: // CHECKING == 2
+	    return 'CHECKING';
+	    break;
+	  case appCache.DOWNLOADING: // DOWNLOADING == 3
+	    return 'DOWNLOADING';
+	    break;
+	  case appCache.UPDATEREADY:  // UPDATEREADY == 4
+	    return 'UPDATEREADY';
+	    break;
+	  case appCache.OBSOLETE: // OBSOLETE == 5
+	    return 'OBSOLETE';
+	    break;
+	  default:
+	    return 'UKNOWN CACHE STATUS';
+	    break;
+	};
+
+> To programmatically update the cache, first call applicationCache.update(). This will attempt to update the user's cache (which requires the manifest file to have changed). Finally, when the applicationCache.status is in its UPDATEREADY state, calling applicationCache.swapCache() will swap the old cache for the new one.
+
+케시를 프로그래밍으로 업데이트 하기위해, 먼저 *applicationCache.update()*를 호출한다. 이 메서드는 변경된 메니페스트 파일 요청을 통해서 사용자 앱 케시 업데이트를 시도한다. *applicationCache.status* 가 *UPDATEREADY* 상태일때, *applicationCache.swapCache()*를 호출하면 이전 캐시를 새것으로 바꿀 것이다. 
+
+	var appCache = window.applicationCache;
+	
+	appCache.update(); // 사용자 캐시 갱신 시도
+	
+	...
+	
+	if (appCache.status == window.applicationCache.UPDATEREADY) {
+	  appCache.swapCache();  // 갱신 성공. 새 캐시로 교채.cache.
+	}
+
+> Note: Using update() and swapCache() like this does not serve the updated resources to users. This flow simply tells the browser to check for a new manifest, download the updated content it specifies, and repopulate the app cache. Thus, it takes two page reloads to server new content to users, one to pull down a new app cache, and another to refresh the page content. 
+
+이 처럼 *update()*와 *swapCache()*를 사용한다고 해서 업데이트 된 캐시 자원이 사용자에게 바로 보이진 않는다. 이 과정은 단지 새 메니패스트 파일을 확인해서 변경된 내용을 다운로드 하고 앱 캐시를 갱신하라고 브라우저에게 알릴 뿐이다. 그러므로, 사용자에게 새 컨텐츠를 제공하려면 페이지가 두번 리로드 되야 한다. 앱 캐시를 끌어오기 위해서 한번,  페이지 컨텐츠를 갱신하기위해서 한번이다. 
+
+> The good news: you can avoid this double reload headache. To update users to the newest version of your site, set a listener to monitor the updateready event on page load: 
+
+다행히도 이 골치 아픈 두번의 리로드는 방시할 수 있다. 사용자에게 새 버전의 사이트를 갱신해 주기 위해서, 문서의 onload에 *updateready* 이벤트 리스너를 지정한다. 
+
+
+	// 페이지 로드시 새 로 캐쉬받아야 하는지 확인.
+	window.addEventListener('load', function(e) {
+	
+	  window.applicationCache.addEventListener('updateready', function(e) {
+	    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+	      // 브라우저가 새 앱 캐시를 다운받는다. 
+	      // 캐시를 교채하고, 따끈따끈한 새 파일을 받기위해 페이지 리로드.
+	      window.applicationCache.swapCache();
+	      if (confirm('A new version of this site is available. Load it?')) {
+	        window.location.reload();
+	      }
+	    } else {
+	      // 메니페스트 파일이 바뀐게 없다. 제공할 새로운게 없음.
+	    }
+	  }, false);
+	
+	}, false);
+
+### 앱 캐시 관련 이벤트
+
+> As you may expect, additional events are exposed to monitor the cache's state. The browser fires events for things like download progress, updating the app cache, and error conditions. The following snippet sets up event listeners for each type of cache event:  여러분의 기대처럼, 캐시의 상태를 관찰하기위해 추가된 이벤트들이 있다. 브라우저는 다운로드 상태, 앱 캐시의 갱신, 그리고 에러 상태 같은 일들에 대해 이벤트를 일으킨다. 다음 코드는 각 캐시 이벤트 타입에 대한 이벤트 리스너 지정법이다. 
+
+	function handleCacheEvent(e) {
+	  //...
+	}
+	
+	function handleCacheError(e) {
+	  alert('Error: Cache failed to update!');
+	};
+	
+	// 메니페스트이 리소스가 모두 캐싱된 후 발생.
+	appCache.addEventListener('cached', handleCacheEvent, false);
+	
+	// 메니페스트를 새로 가져와 캐시 갱신을 해야 하는지 확인. 과정상 항상 가장 먼저 발생.
+	appCache.addEventListener('checking', handleCacheEvent, false);
+	
+	// 갱신된 것을 찾았다. 브라우저가 리소스를 받아오는 중
+	appCache.addEventListener('downloading', handleCacheEvent, false);
+	
+	// 메니페스트 파일에 대한 응답이 404나 410, 다운로드 실패, 
+	// 아니면 다운로드가 진행중인데 메니페스트가 변경됬을때.
+	appCache.addEventListener('error', handleCacheError, false);
+	
+	// 메이페스트의 모두 다운로드 완료후 발생.
+	appCache.addEventListener('noupdate', handleCacheEvent, false);
+	
+	// 메니페스트 파일에 대한 응답이 404나 410 이면 발생한다. 
+	// 앱 캐시 안의 내용이 삭제 된다. 
+	appCache.addEventListener('obsolete', handleCacheEvent, false);
+	
+	// 메니페스트 파일에 나열된 각 리소스를 모두 가져오면 발생
+	appCache.addEventListener('progress', handleCacheEvent, false);
+	
+	// 메니페스트의 리소스들이 새로 다시 다운로드 되었을때 발생.
+	appCache.addEventListener('updateready', handleCacheEvent, false);
+
+참조 페이지
+------------
+* [ApplicationCache](http://www.whatwg.org/specs/web-apps/current-work/#applicationcache) API specification
