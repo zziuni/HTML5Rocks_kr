@@ -354,6 +354,8 @@ FALLBack:<br/>
 	appCache.addEventListener('updateready', handleCacheEvent, false);
 ```
 
+> If the manifest file or a resource specified in it fails to download, the entire update fails. The browser will continue to use the old application cache in the event of such a failure.
+
 메니페스트 파일이나 그안에 정의된 리소스를 다운로드에 실패하면, 전체가 롤백된다. 브라우저는 이전 application cache를 사용하게 될 것이다. 
 
 참조 페이지
