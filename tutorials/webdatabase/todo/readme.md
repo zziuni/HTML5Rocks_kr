@@ -22,7 +22,6 @@ June 14th, 2010*
 
 여기 나오는 예제는 간단한 할일 목록 관리 앱을 만드는 방법을 보여준다. 이를 통해서 HTML5의 몇가지 기능들을 살펴볼 수 있을 것이다. 
 
-
 ## 사전 준비 작업
 >This sample uses a namespace to encapsulate the database logic.
 
