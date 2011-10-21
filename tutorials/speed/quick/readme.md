@@ -27,7 +27,7 @@ Using these features, when present, can end up delivering a much faster experien
 In this tutorial, I won't recap the excellent performance research that you've seen at Yahoo's Exceptional Performance site or Google's Page Speed docs and Let's make the web faster site. 
 Instead I'll focus on how putting HTML5 and CSS3 to use today can make your web apps more responsive. 
 
-HTML5 내용은 대부분 기존의 여러가지 컴포넌트들과 자바스크립트 라이브러리로 만들었던 기법들을 네이티브 브라우저가 지원하도록 하는 것을 목적으로 하고 있다. 이런 기능들을 이용하여 개발하면, 사용자에게 더 빠른 경험을 제공할 수 있게 된다. 하지만 이 튜토리얼에서 야후의 [Exceptional Performance site](http://developer.yahoo.com/performance/rules.html)와 Google의 [Page Speed docds](http://code.google.com/speed/page-speed/docs/rules_intro.html), [Let's make the web faster](http://code.google.com/speed/index.html)같은 훌륭한 성능 개선 기법을 다시 다룰 생각은 없다. 대신에 여기선 여러분의 웹 앱을 좀더 반응형 웹 앱으로 만들기 위해 당장 사용할 수 있는 HTML5와 CSS3에 집중할 것이다. 
+HTML5 내용은 대부분 기존의 여러가지 컴포넌트들과 자바스크립트 라이브러리로 만들었던 기법들을 네이티브 브라우저가 지원하도록 하는 것을 목적으로 하고 있다. 이런 기능들을 이용하여 개발하면, 사용자에게 더 빠른 경험을 제공할 수 있게 된다. 하지만 이 튜토리얼에서 야후의 [Exceptional Performance site](http://developer.yahoo.com/performance/rules.html)와 Google의 [Page Speed docs](http://code.google.com/speed/page-speed/docs/rules_intro.html), [Let's make the web faster](http://code.google.com/speed/index.html)같은 훌륭한 성능 테스트 결과을 다시 다룰 생각은 없다. 대신에 여기선 여러분의 웹 앱을 좀더 반응형 웹 앱으로 만들기 위해 당장 사용할 수 있는 HTML5와 CSS3에 집중할 것이다. 
 
 > Tip 1: 쿠키대신에 웹 스토리지를 사용하라. 
 ----------------------------------------------------
