@@ -119,13 +119,13 @@ html5rocsk.webdb.addTodo = function(todoText){
 
 현재 데이터는 데이터베이스안에 있다. 데이터를 다시 빼올 함수가 필요한데, 크롬에서는 Webdatabase가 표준 SQLite SELECT 쿼리를 사용한다. 
 
-````javascript
+```javascript
 html5rocks.webdb.getAllTodoItems = function(renderFunc){
     html5rocks.webdb.db.transaction(function(tx){
         tx.executeSql('SELECT * FROM todo', [], renderFunc, html5rocks.webdb.onError);
     });
 }
-````
+```
 
 > Note that all of these commands used in this sample are asynchronous and as such the data is not returned from the transaction or the executeSql call. The results are passed through to the success callback. 
 
@@ -151,7 +151,7 @@ function renderTodo(row){
     return '<li></li>' + row.ID + '[<a onclick="html5rocks.webdb.deleteTodo(' + row.ID + ');">X</a>]</li>';
 
 }
-````
+```
 > The effect of this method call is that the todo list is rendered into a DOM Element called "todoItems".
 
 이 메서드를 호출하면 'todoItems'란 id의 DOM 요소에 할일 목록이 렌더링 된다. 
