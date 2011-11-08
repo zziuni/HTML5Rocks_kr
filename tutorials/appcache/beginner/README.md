@@ -19,8 +19,7 @@ Intorduction
 ----
 > It's becoming increasingly important for web-based applications to be accessible offline. Yes, all browsers have caching mechanisms, but they're unreliable and don't always work as you might expect. HTML5 addresses some of the annoyances of being offline with the ApplicationCache interface. 
 
-웹 기반 어플리케이션을 오프라인 상태에서 사용하는  문제가 갈수록 중요해지고 있다. 물론 모든 브라우저에는 이를 위한 캐싱 메카니즘이 있지만 현재의 캐싱은 신뢰도가 낮고 항상 기대처럼 움직이진 않는다. 그래서 HTML5에는 비동기 처리중 일부를 담당하는 [ApplicatonCache](http://www.whatwg.org/specs/web-apps/current-work/#applicationcache)
- 오프라인 상의 비동기 처리중 몇가지를 [ApplicatonCache](http://www.whatwg.org/specs/web-apps/current-work/#applicationcache)로 처리한다. 
+웹 기반 어플리케이션을 오프라인 상태에서도 쓸 수 있는가 하는 문제가 갈수록 중요해지고 있다. 물론 모든 브라우저에는 이를 위한 캐싱 메카니즘이 있다. 하지만 현재의 캐싱은 신뢰도가 낮고 항상 기대처럼 움직이진 않는다. 그래서 HTML5에는 오프라인 상의 비동기 처리중 몇가지를 [ApplicatonCache](http://www.whatwg.org/specs/web-apps/current-work/#applicationcache)로 처리한다. 
 
 > Using the cache interface gives your application three advantages: 
 
